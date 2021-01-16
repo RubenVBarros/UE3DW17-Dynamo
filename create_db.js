@@ -10,10 +10,12 @@ var dynamodb = new AWS.DynamoDB();
 var params = {
     TableName : "Countries",
     KeySchema: [       
-        { AttributeName: "cca2", KeyType: "HASH"} //Partition key
+        { AttributeName: "region", KeyType: "HASH"},
+        { AttributeName: "nom", KeyType: "RANGE"} //Partition key
     ],
     AttributeDefinitions: [       
-        { AttributeName: "cca2", AttributeType: "S" },
+        { AttributeName: "nom", AttributeType: "S" },
+        { AttributeName: "region", AttributeType: "S"}
     ],
     ProvisionedThroughput: {       
         ReadCapacityUnits: 10, 

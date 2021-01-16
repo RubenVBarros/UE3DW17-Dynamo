@@ -16,7 +16,12 @@ var countries = JSON.parse(fs.readFileSync('countries.json', 'utf-8'));
 countries.forEach(function(country){
     let params = {
         TableName: "Countries",
-        Item: country
+        Item: {
+            "nom" : country.name.official,
+            "region" : country.region,
+            "languages": country.languages,
+            "area": country.area
+        }
     }
 
     docClient.put(params, function(err,data){
