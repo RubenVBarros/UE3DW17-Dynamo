@@ -10,17 +10,30 @@ var dynamodb = new AWS.DynamoDB();
 var params = {
     TableName : "Countries",
     KeySchema: [       
-        { AttributeName: "region", KeyType: "HASH"},
-        { AttributeName: "nom", KeyType: "RANGE"} //Partition key
+        { AttributeName: "region", KeyType: "HASH"}, //Partition key
+        { AttributeName: "nom", KeyType: "RANGE"}
     ],
     AttributeDefinitions: [       
         { AttributeName: "nom", AttributeType: "S" },
-        { AttributeName: "region", AttributeType: "S"}
+        { AttributeName: "region", AttributeType: "S"},
+        { AttributeName: "area", AttributeType: "N"}
     ],
     ProvisionedThroughput: {       
         ReadCapacityUnits: 10, 
         WriteCapacityUnits: 10
-    }
+    },
+    LocalSecondaryIndexes:[
+        {
+            IndexName: "CountriesArea",
+            KeySchema: [       
+                { AttributeName: "region", KeyType: "HASH"},//Partition key
+                { AttributeName: "area", KeyType: "RANGE"} 
+            ],
+            Projection: {
+                ProjectionType: "KEYS_ONLY"
+            }
+        }
+    ]
 };
 
 dynamodb.createTable(params, function(err, data) {
