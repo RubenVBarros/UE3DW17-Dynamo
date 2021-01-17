@@ -16,7 +16,8 @@ router.get('/europe', function(req,res){
     },
     ExpressionAttributeValues:{
       ":region": {"S":"Europe"}
-    }
+    },
+    ProjectionExpression:"nom",
   };
   req.dynamodb.query(params, function(err,data){
     if(err){
