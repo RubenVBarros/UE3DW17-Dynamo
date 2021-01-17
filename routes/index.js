@@ -123,7 +123,30 @@ router.get('/lettre', function(req, res) {
 });
 
 router.get('/superficie', function(req, res) {
+    let params = {
+        TableName: "Countries",
+        IndexName: "CountriesArea",
+        FilterExpression: "#a between :a and :b",
+        ExpressionAttributeNames:{
+        "#a": "area"
+        },
+        ExpressionAttributeValues:{
+        ":a": {"N":"400000"},
+        ":b": {"N":"500000"} 
+        },
+        ProjectionExpression:"nom, area",
+      };
     
+      req.dynamodb.scan(params, function(err,data){
+        if(err){
+          res.render("error_json",{"err":err});
+        } else {
+          res.render("list",{
+            "list": data.Items.map(country => country.nom.S + " : " + country.area.N + "km²"),
+            "title": "Liste des pays avec une superficie entre 400000 et 500000 km²"
+          });
+        }
+      });
 });
 
 module.exports = router;
