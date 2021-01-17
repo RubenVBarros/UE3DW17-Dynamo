@@ -101,7 +101,24 @@ router.get('/neerlandais', function(req, res) {
 });
 
 router.get('/lettre', function(req, res) {
-    
+    let params = {
+        TableName: "Countries",
+        FilterExpression: `begins_with(nom,:n)`,
+        ExpressionAttributeValues:{
+            ":n": {"S":"A"}
+        },
+        ProjectionExpression:"nom",
+    }
+    req.dynamodb.scan(params, function(err,data){
+        if(err){
+          res.render("error_json",{"err":err});
+        } else {
+          res.render("list",{
+            "list": data.Items.map(country => country.nom.S),
+            "title": "Liste des pays avec une lettre donnée"
+          });
+        }
+      });
 });
 
 router.get('/superficie', function(req, res) {
