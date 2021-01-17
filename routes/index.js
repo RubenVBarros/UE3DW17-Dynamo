@@ -75,7 +75,6 @@ router.get('/infos', function(req, res) {
     if(err){
       res.render("error_json",{"err":err});
     } else {
-      console.log(JSON.stringify(data));
       res.render("pays",{
         "pays": data.Items[0]
       });
