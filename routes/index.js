@@ -31,4 +31,24 @@ router.get('/europe', function(req,res){
   });
 });
 
+router.get('/afrique', function(req, res) {
+  res.render('index', { title: 'Express' });
+});
+
+router.get('/infos', function(req, res) {
+  res.render('index', { title: 'Express' });
+});
+
+router.get('/neerlandais', function(req, res) {
+  res.render('index', { title: 'Express' });
+});
+
+router.get('/lettre', function(req, res) {
+  res.render('index', { title: 'Express' });
+});
+
+router.get('/superficie', function(req, res) {
+  res.render('index', { title: 'Express' });
+});
+
 module.exports = router;
