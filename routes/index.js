@@ -70,6 +70,7 @@ router.get('/infos', function(req, res) {
     ExpressionAttributeValues:{
       ":nom": {"S":"Ireland"}
     },
+    Limit: 1
   };
   req.dynamodb.scan(params, function(err,data){
     if(err){
