@@ -4,19 +4,28 @@ var router = express.Router();
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-  res.render('test', { title: 'Express' });
+  res.render('index', { title: 'Express' });
 });
 
 router.get('/europe', function(req,res){
   let params = {
     TableName: "Countries",
-    ProjectionExpression: "cca2, name.official",
+    KeyConditionExpression: "#reg = :region",
+    ExpressionAttributeNames:{
+      "#reg": "region"
+    },
+    ExpressionAttributeValues:{
+      ":region": {"S":"Europe"}
+    }
   };
   req.dynamodb.query(params, function(err,data){
     if(err){
-      res.send(JSON.stringify(err,null,2));
+      res.render("error_json",{"err":err});
     } else {
-      res.render("list",{"list": data});
+      res.render("list",{
+        "list": data.Items.map(country => country.nom.S),
+        "title": "Pays européens"
+      });
     }
   });
 });
