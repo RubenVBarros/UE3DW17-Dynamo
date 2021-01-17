@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Informations : <%= pays.nom.S %></title>
+</head>
+
+<body>
+    <h1>Informations : <%= pays.nom.S %></h1>
+    <p>Superficie : <%= pays.area.N %> km²</p>
+    <p>Langues :
+        <ul><%
+            for (const lang in pays.languages.M) {
+                if (Object.hasOwnProperty.call(pays.languages.M, lang)) {
+                    const language = pays.languages.M[lang]; 
+                    %>
+                    <li><%= language.S %></li><%
+                }
+            }    
+        %></ul>
+    </p>
+</body>
+
+</html>

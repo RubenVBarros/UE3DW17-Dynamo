@@ -17,7 +17,7 @@ countries.forEach(function(country){
     let params = {
         TableName: "Countries",
         Item: {
-            "nom" : country.name.official,
+            "nom" : country.name.common,
             "region" : country.region,
             "languages": country.languages,
             "area": country.area

@@ -61,7 +61,26 @@ router.get('/afrique', function(req, res) {
 });
 
 router.get('/infos', function(req, res) {
-  res.render('index', { title: 'Express' });
+  let params = {
+    TableName: "Countries",
+    FilterExpression: "#n = :nom",
+    ExpressionAttributeNames:{
+      "#n": "nom"
+    },
+    ExpressionAttributeValues:{
+      ":nom": {"S":"Ireland"}
+    },
+  };
+  req.dynamodb.scan(params, function(err,data){
+    if(err){
+      res.render("error_json",{"err":err});
+    } else {
+      console.log(JSON.stringify(data));
+      res.render("pays",{
+        "pays": data.Items[0]
+      });
+    }
+  });
 });
 
 router.get('/neerlandais', function(req, res) {
