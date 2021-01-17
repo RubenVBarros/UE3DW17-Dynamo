@@ -84,15 +84,29 @@ router.get('/infos', function(req, res) {
 });
 
 router.get('/neerlandais', function(req, res) {
-  res.render('index', { title: 'Express' });
+    let params = {
+        TableName: "Countries",
+        FilterExpression: `attribute_exists(languages.nld)`,
+        ProjectionExpression:"nom",
+    }
+    req.dynamodb.scan(params, function(err,data){
+        if(err){
+          res.render("error_json",{"err":err});
+        } else {
+          res.render("list",{
+            "list": data.Items.map(country => country.nom.S),
+            "title": "Pays néerlandophones"
+          });
+        }
+      });
 });
 
 router.get('/lettre', function(req, res) {
-  res.render('index', { title: 'Express' });
+    
 });
 
 router.get('/superficie', function(req, res) {
-  res.render('index', { title: 'Express' });
+    
 });
 
 module.exports = router;
